@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.DAO;
+import model.vo.AccountVO;
 
 @WebServlet("/boardwrite")
 public class BoardController extends HttpServlet {
@@ -20,10 +21,21 @@ public class BoardController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		AccountVO av = new AccountVO();
+		av = (AccountVO)session.getAttribute("user");
 		
-		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("/WEB-INF/write.jsp");
-		rd.forward(request, response);
+		if (av != null) {
+			RequestDispatcher rd;
+			rd = request.getRequestDispatcher("/WEB-INF/write.jsp");
+			rd.forward(request, response);
+		}
+		else {
+
+			response.sendRedirect("/account/login");
+		}
+		
+		
 	}
 	
 	

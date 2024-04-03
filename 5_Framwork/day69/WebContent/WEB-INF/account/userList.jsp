@@ -30,23 +30,6 @@
 	</table>
 	
 	
-	<ul class="page">
-		<c:if test="${pg.prev }">
-			<li><a href="${cpath }/board.jsp?page=${pg.begin - 1}">이전</a></li>	
-		</c:if>
-		
-		
-		<c:forEach var="i" begin="${pg.begin }" end="${pg.end }">
-			<li><a href="${cpath }/board.jsp?page=${i }">
-				${i }
-			</a></li>
-		</c:forEach>
-		
-		<c:if test="${pg.next }">
-			<li><a href="${cpath }/board.jsp?page=${pg.end + 1} ">다음</a></li>
-		</c:if>
-	</ul>
-	
 </article>
 </main>
 </body>
