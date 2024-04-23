@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itbank.model.AccountDAO">
+	<select id="selectOne"
+		parameterType="com.itbank.model.vo.AccountVO"
+		resultType="com.itbank.model.vo.AccountVO"> select * from account where userid = #{userid} and userpw
+		= #{userpw} </select>
+		
+	<insert id="insert"
+		parameterType="com.itbank.model.vo.AccountVO"> 
+		insert into account(userid, userpw, nick, email)
+		values(#{userid}, #{userpw}, #{nick}, #{email}) 
+	</insert>
+	
+	<select id="findAcc"
+		parameterType="com.itbank.model.vo.AccountVO"
+		resultType="com.itbank.model.vo.AccountVO">
+		select * from account where userid = #{userid} and email = #{email}
+	</select>
+	
+	<update id="updatePw"
+		parameterType="com.itbank.model.vo.AccountVO">
+		update account set userpw = #{userpw} where idx = #{idx}
+		
+	</update>
+	
+	
+	<select id="selectAcc"
+		parameterType="com.itbank.model.vo.AccountVO"
+		resultType="com.itbank.model.vo.AccountVO"> 
+		select * from account where idx = #{idx}
+	</select>
+	
+	<update id="updateAcc"
+		parameterType="com.itbank.model.vo.AccountVO">
+		update account set userpw = #{userpw}, nick = #{nick}, email = #{email} where idx = #{idx}
+	</update>
+	
+	
+	<delete id="delAcc"
+		parameterType="com.itbank.model.vo.AccountVO">
+		delete from account where idx = #{idx} 
+	</delete>
+	
+	
+	
+	
+	
+</mapper>
