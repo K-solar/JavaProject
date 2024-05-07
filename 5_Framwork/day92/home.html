@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <style>
+        body {
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            text-align: center;
+        }
+
+        table {
+
+            border-collapse: collapse;
+            margin: auto;
+
+        }
+        th, td  {
+            border: 1px solid black;
+            padding: 5px 10px;
+        }
+    </style>
+
+
+</head>
+<body>
+    <h1>RESTFul</h1>
+    <hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>제목</th>
+                <th>컨텐츠</th>
+                <th>닉네임</th>
+                <th>조회수</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <br>
+
+    <p>
+        <button>POST(Board 생성)</button>
+        <button>PATCH(Board 수정)</button>
+        <button>DELETE(Board 삭제)</button>
+    </p>
+
+
+    <!-- 여기에 가져온 board 정보를 table 태그로 모두 출력-->
+
+    <script>
+        const url = 'http://127.0.0.1:8080/day92/board';
+
+        fetch(url, {
+            method : 'get',
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            let msg = '';
+
+            for (let i = 0; i < data.length; i++) {
+                msg +=      `<tr>` +
+                            `<td>${data[i].idx}</td>` +
+                            `<td>${data[i].title}</td>` +
+                            `<td>${data[i].contents}</td>` +
+                            `<td>${data[i].nick}</td>` +
+                            `<td>${data[i].v_count}</td>` +
+                            `<td>${data[i].w_date}</td>` +
+                            `</tr>`;
+            }
+
+            document.querySelector('tbody').innerHTML = msg;
+
+
+        });
+
+        let btns = document.querySelectorAll('button');
+
+        // 2. POST (Board 생성)
+        let add = btns[0];
+        add.onclick = () => {
+            let title = prompt('제목 : ');
+            let contents = prompt('컨텐츠 : ');
+            let user_idx = Number(prompt('유저IDX : '));
+
+            fetch(url, {
+                method : 'post',
+                headers : { 
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify({
+                    "title" : title,
+                    "contents" : contents,
+                    "user_idx": user_idx
+                })
+               
+            })
+            .then(response => {
+                console.log('응답 : ' + response.status);
+            })
+            location.reload();
+        };
+
+        // 3. PATCH (Board수정)
+        let upd = btns[1];
+        upd.onclick = () => {
+            let idx = Number(prompt('IDX : '));
+            let title = prompt('제목 : ');
+            let contents = prompt('컨텐츠 : ');
+
+            fetch(url, {
+                method : 'PATCH',
+                headers : { 
+                    "Content-Type" : "application/json"
+                },
+                body : JSON.stringify({
+                    "idx" : idx,
+                    "title" : title,
+                    "contents" : contents
+                })
+                
+            })
+            location.reload();
+        };
+
+
+        // 4. DELETE (Board삭제)
+        let del = btns[2];
+
+        del.onclick = () => {
+            let idx = Number(prompt('삭제할 Board IDX : '));
+            let durl = url + `?idx=${idx}`;
+
+            if(idx == 0) {
+                alert('값을 입력해주세요.');
+                return;
+            }
+
+            fetch(durl, {
+                method: 'DELETE'
+                
+            })
+            .then(response => {
+                let code = response.status;
+
+                if (code == 2000) {
+                    alert('삭제 완료');
+                }
+                else {
+                    alert('학번을 제대로 입력해주세요');
+                }
+            })
+
+            location.reload();
+
+        };
+
+
+        
+
+
+        </script>
+
+
+
+    
+</body>
+</html>
