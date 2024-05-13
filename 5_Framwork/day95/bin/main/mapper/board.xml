@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itbank.model.BoardDAO">
+		
+	
+		<select id="selectAll"
+				parameterType="map" 
+				resultType="com.itbank.vo.BoardVO"> 
+			select * from board_view
+				<if test="type != null">
+				where ${type} like '%${search}%'
+				</if>
+				order by idx desc
+				offset #{offset} rows
+				fetch first #{boardCount} rows only
+				
+				
+		</select>
+	
+		
+</mapper>
